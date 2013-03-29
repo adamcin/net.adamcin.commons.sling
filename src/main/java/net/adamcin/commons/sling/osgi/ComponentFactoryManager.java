@@ -203,8 +203,8 @@ public class ComponentFactoryManager<ComponentT> {
      * @param factoryName
      * @return
      */
-    public Map<String,Object> getFactoryProperties(String factoryName){
-        Map<String,Map<String,Object>> factories = this.getAllFactoryProperties(factoryName);
+    public Map<String, Object> getFactoryProperties(String factoryName){
+        Map<String,Map<String, Object>> factories = this.getAllFactoryProperties(factoryName);
         return factories.get(factoryName);
     }
 
@@ -214,8 +214,8 @@ public class ComponentFactoryManager<ComponentT> {
      * @param factoryFilter
      * @return
      */
-    public Map<String,Map<String,Object>> getAllFactoryProperties(String factoryFilter){
-        HashMap<String,Map<String,Object>> factories = new HashMap<String,Map<String,Object>>();
+    public Map<String, Map<String, Object>> getAllFactoryProperties(String factoryFilter){
+        HashMap<String, Map<String, Object>> factories = new HashMap<String,Map<String,Object>>();
 
         ServiceReference[] refs = this.getServiceReferences(factoryFilter);
 
@@ -226,11 +226,11 @@ public class ComponentFactoryManager<ComponentT> {
         }
 
         for(ServiceReference ref : refs){
-            Map<String,Object> props = new HashMap<String,Object>();
+            Map<String, Object> props = new HashMap<String, Object>();
             for(String key : ref.getPropertyKeys()){
                 props.put(key, ref.getProperty(key));
             }
-            String factoryName = ((String)ref.getProperty(FACTORY_PROPERTY)).substring(componentClass.getName().length() + 1);
+            String factoryName = ((String) ref.getProperty(FACTORY_PROPERTY)).substring(componentClass.getName().length() + 1);
             factories.put(factoryName, props);
             this.bundleContext.ungetService(ref);
         }

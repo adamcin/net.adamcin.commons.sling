@@ -13,22 +13,32 @@ public class SyntheticResourceWithProperties extends SyntheticResource {
 
     private final Map<String, Object> properties = new HashMap<String, Object>();
 
-    public SyntheticResourceWithProperties(ResourceResolver resourceResolver, String path, String resourceType) {
+    public SyntheticResourceWithProperties(ResourceResolver resourceResolver,
+                                           String path,
+                                           String resourceType) {
         super(resourceResolver, path, resourceType);
     }
 
-    public SyntheticResourceWithProperties(ResourceResolver resourceResolver, ResourceMetadata rm, String resourceType) {
+    public SyntheticResourceWithProperties(ResourceResolver resourceResolver,
+                                           ResourceMetadata rm,
+                                           String resourceType) {
         super(resourceResolver, rm, resourceType);
     }
 
-    public SyntheticResourceWithProperties(ResourceResolver resourceResolver, String path, String resourceType, Map<String, ? extends Object> properties) {
+    public SyntheticResourceWithProperties(ResourceResolver resourceResolver,
+                                           String path,
+                                           String resourceType,
+                                           Map<String, ?> properties) {
         super(resourceResolver, path, resourceType);
         if (properties != null) {
             this.properties.putAll(properties);
         }
     }
 
-    public SyntheticResourceWithProperties(ResourceResolver resourceResolver, ResourceMetadata rm, String resourceType, Map<String, ? extends Object> properties) {
+    public SyntheticResourceWithProperties(ResourceResolver resourceResolver,
+                                           ResourceMetadata rm,
+                                           String resourceType,
+                                           Map<String, ?> properties) {
         super(resourceResolver, rm, resourceType);
         if (properties != null) {
             this.properties.putAll(properties);
@@ -44,6 +54,8 @@ public class SyntheticResourceWithProperties extends SyntheticResource {
     public <AdapterType> AdapterType adaptTo(Class<AdapterType> type) {
         if (type == ValueMap.class) {
             return (AdapterType) new ValueMapDecorator(this.properties);
+        } else if (type == Map.class) {
+            return (AdapterType) getProperties();
         } else {
             return super.adaptTo(type);
         }
